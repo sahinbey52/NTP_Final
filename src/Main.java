@@ -32,23 +32,23 @@ public class Main extends JFrame{
         panel.add(btnkaydet);
         JButton btntw=new JButton("Twitter");
         panel.add(btntw);
-        /*JButton btnsb=new JButton("SB yap");
+        JButton btnsb=new JButton("SB yap");
         panel.add(btnsb);
         JButton btnparlat=new JButton("parlat");
         panel.add(btnparlat);
         JButton btnkontr=new JButton("Kontrast");
         panel.add(btnkontr);
         JButton btnblnk=new JButton("Bulanık");
-        panel.add(btnblnk);*/
+        panel.add(btnblnk);
 
-        JCheckBox cb_sb=new JCheckBox("Siyah-beyaz");
+        /*JCheckBox cb_sb=new JCheckBox("Siyah-beyaz");
         JCheckBox cb_parlat=new JCheckBox("Parlat");
         JCheckBox cb_kontr=new JCheckBox("Kontrast");
         JCheckBox cb_blnk=new JCheckBox("Bulanıklaştır");
         panel.add(cb_sb);
         panel.add(cb_parlat);
         panel.add(cb_kontr);
-        panel.add(cb_blnk);
+        panel.add(cb_blnk);*/
 
 
         frm.getContentPane().add(panel);
@@ -81,7 +81,7 @@ public class Main extends JFrame{
                 ft.fotoPaylas();
             }
         });
-        /*btnsb.addActionListener(new ActionListener() {
+        btnsb.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ft.siyah_beyaz(img);
@@ -108,9 +108,9 @@ public class Main extends JFrame{
                 ft.bulanik(img);
 
             }
-        });*/
+        });
 
-        cb_sb.addActionListener(new ActionListener() {
+        /*cb_sb.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Siyah beyaz yapıldı");
@@ -133,7 +133,7 @@ public class Main extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Bulanıklaştırıldı");
             }
-        });
+        });*/
 
         //FacebookClient fbc=new DefaultFacebookClient();
 
