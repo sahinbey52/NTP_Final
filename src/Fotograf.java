@@ -1,10 +1,11 @@
+import com.restfb.*;
 import org.bytedeco.javacv.FrameGrabber;
 import org.bytedeco.javacv.Java2DFrameConverter;
 import org.bytedeco.javacv.OpenCVFrameGrabber;
 
-import twitter4j.*;
-import twitter4j.auth.*;
-import twitter4j.conf.*;
+import com.restfb.FacebookClient;
+import com.restfb.types.FacebookType;
+
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -12,6 +13,7 @@ import javax.swing.filechooser.FileFilter;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 
 
 public class Fotograf {
@@ -75,7 +77,6 @@ public class Fotograf {
 
     public void fotografCek(){
 
-        //try{grabber.stop();}catch(Exception e){}
 
     }
 
@@ -84,33 +85,38 @@ public class Fotograf {
         resim_dosyasi=dosya;
         try {
             ImageIO.write(foto, "jpg", dosya);
-            JOptionPane.showMessageDialog(null, "Kaydedildi", "Kayıt", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Kaydedildi", "kayit", JOptionPane.INFORMATION_MESSAGE);
         }catch (Exception e){e.printStackTrace();}
     }
 
     public void fotoPaylas(){
 
+        //30 temmuza kadar geçerli
+        String accessToken = "EAAT7Kw6YKxkBAEfY9F4iC7icFFeX3ZA5ysohwpZAo13uHod14Puk8UOQwG9d0AkE6ZCo9gkO3U93ejK8WeKIsZBvKX7gX8qpXS7ScH7ZCZA3mke9sxWFFiQA7QewgdUuNsgNaV3dff6BZByp16J6Bwq0iGNePofQuiaEKblNmFTd7KcHJYkEa5REn2S3ombUXMZD";
+        //
+        FacebookClient facebookClient = new DefaultFacebookClient(accessToken, Version.LATEST);
+
+        // Paylaşmak istediğiniz fotoğrafın yolu
+        String photoPath = resim_dosyasi.toString(); // "C:\\Users\\Beytullah\\res3.jpg";
+
         try {
-            String consumerKey = "5CDsM7IM3J7MZJWskdZUNX10u";
-            String consumerSecret = "cgvxOK5UhceIYta1PaHi5XUD3UMSKYCkr0ammIgEhHfiqUBQgF";
-            String accessToken = "1660519623274516480-JDMerzAp46NWur8A0mtelvqqnMm2Ru";
-            String accessTokenSecret = "uFlEuVyzQLhp6ixPn8ix69RbLujnlIfqcKt8m1sEkS6B6";
+            FileInputStream fis = new FileInputStream(photoPath);
+            if (fis != null) {
+                // Fotoğrafı yükleyin
+                FacebookType response = facebookClient.publish("/100093235084656/photos", FacebookType.class,
+                        BinaryAttachment.with("resim",fis),
+                        Parameter.with("message", "deneme"));
 
-            ConfigurationBuilder cb = new ConfigurationBuilder();
-            cb.setDebugEnabled(true)
-                    .setOAuthConsumerKey(consumerKey)
-                    .setOAuthConsumerSecret(consumerSecret)
-                    .setOAuthAccessToken(accessToken)
-                    .setOAuthAccessTokenSecret(accessTokenSecret);
+                // Yüklenen fotoğrafın ID'sini alın
+                String photoId = response.getId();
 
-            TwitterFactory tf = new TwitterFactory(cb.build());
-            Twitter twitter = tf.getInstance();
+                String yuklemeMesaj="Fotoğraf başarıyla yüklendi. ID: " + photoId.toString();
+                JOptionPane.showMessageDialog(null, yuklemeMesaj, "Kayıt", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                System.out.println("Fotoğrafın veri içeriği eksik!");
+            }
+        }catch (Exception e){e.printStackTrace();}
 
-            StatusUpdate tweet = new StatusUpdate("Deneme");
-            tweet.setMedia(resim_dosyasi);
-            Status st = twitter.updateStatus(tweet);
-            JOptionPane.showMessageDialog(null, "Yüklendi", "tweet", JOptionPane.INFORMATION_MESSAGE);
-        } catch (Exception e) {e.printStackTrace();}
 
     }
 }

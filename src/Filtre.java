@@ -12,7 +12,9 @@ import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
 import java.awt.image.DataBufferByte;
+import java.awt.image.WritableRaster;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 
@@ -22,7 +24,7 @@ import static org.bytedeco.opencv.global.opencv_imgproc.GaussianBlur;
 
 public class Filtre extends Fotograf {
 
-    BufferedImage gecicifoto;
+    BufferedImage filtrefoto;
 
     public Filtre(){
         super();
@@ -30,33 +32,43 @@ public class Filtre extends Fotograf {
 
     @Override
     public void fotografCek(){
-
+        filtrefoto=fotoKopyala(foto);
     }
 
-    /*@Override
+    @Override
     public void fotografKaydet(){
-
-    }*/
+        File dosya=new File(dosyaSec().toString()+".jpg");
+        resim_dosyasi=dosya;
+        try {
+            ImageIO.write(filtrefoto, "jpg", dosya);
+            JOptionPane.showMessageDialog(null, "Kaydedildi", "kayit", JOptionPane.INFORMATION_MESSAGE);
+        }catch (Exception e){e.printStackTrace();}
+    }
 
     public void siyah_beyaz(JLabel imgLabel){
 
-        gecicifoto=siyah_beyazUygula(foto);
-        imgLabel.setIcon(new ImageIcon(gecicifoto));
+        filtrefoto=siyah_beyazUygula(filtrefoto);
+        imgLabel.setIcon(new ImageIcon(filtrefoto));
     }
 
     public void parlat(JLabel imgLabel){
-        gecicifoto=parlaklikUygula(foto);
-        imgLabel.setIcon(new ImageIcon(gecicifoto));
+        filtrefoto=parlaklikUygula(filtrefoto);
+        imgLabel.setIcon(new ImageIcon(filtrefoto));
     }
 
     public void kontrast(JLabel imgLabel){
-        gecicifoto=kontrastUygula(foto);
-        imgLabel.setIcon(new ImageIcon(gecicifoto));
+        filtrefoto=kontrastUygula(filtrefoto);
+        imgLabel.setIcon(new ImageIcon(filtrefoto));
     }
 
     public void bulanik(JLabel imgLabel){
-        gecicifoto=bulaniklastir(foto);
-        imgLabel.setIcon(new ImageIcon(gecicifoto));
+        filtrefoto=bulaniklastir(filtrefoto);
+        imgLabel.setIcon(new ImageIcon(filtrefoto));
+    }
+
+    public void ftemizle(JLabel imgLabel){
+        filtrefoto=fotoKopyala(foto);
+        imgLabel.setIcon(new ImageIcon(filtrefoto));
     }
 
 
@@ -114,5 +126,12 @@ public class Filtre extends Fotograf {
 
         //Mat, BufferedImage'a dönüştürülerek döndürülür
         return Java2DFrameUtils.toBufferedImage(bulanik);
+    }
+
+    private static BufferedImage fotoKopyala(BufferedImage bi) {
+        ColorModel cm = bi.getColorModel();
+        boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
+        WritableRaster raster = bi.copyData(bi.getRaster().createCompatibleWritableRaster());
+        return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
     }
 }
