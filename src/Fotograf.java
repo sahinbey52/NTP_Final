@@ -117,6 +117,5 @@ public class Fotograf {
             }
         }catch (Exception e){e.printStackTrace();}
 
-
     }
 }

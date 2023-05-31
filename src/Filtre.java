@@ -84,6 +84,12 @@ public class Filtre extends Fotograf {
 
         //Mat, BufferedImage'a dönüştürülerek döndürülür
         return Java2DFrameUtils.toBufferedImage(siyah_beyaz);
+        /*BufferedImage image = new BufferedImage(img.getWidth(), img.getHeight(),
+                BufferedImage.TYPE_BYTE_GRAY);
+        Graphics g = image.getGraphics();
+        g.drawImage(img, 0, 0, null);
+        g.dispose();
+        return image;*/
     }
 
     private static BufferedImage parlaklikUygula(BufferedImage img){
@@ -128,10 +134,11 @@ public class Filtre extends Fotograf {
         return Java2DFrameUtils.toBufferedImage(bulanik);
     }
 
-    private static BufferedImage fotoKopyala(BufferedImage bi) {
-        ColorModel cm = bi.getColorModel();
-        boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
-        WritableRaster raster = bi.copyData(bi.getRaster().createCompatibleWritableRaster());
-        return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
+    private static BufferedImage fotoKopyala(BufferedImage orj) {
+        BufferedImage kopyalananResim = new BufferedImage(orj.getWidth(), orj.getHeight(), orj.getType());
+        Graphics2D g = kopyalananResim.createGraphics();
+        g.drawImage(orj, 0, 0, null);
+        g.dispose();
+        return kopyalananResim;
     }
 }
