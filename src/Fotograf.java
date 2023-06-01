@@ -69,7 +69,7 @@ public class Fotograf {
     static public void fotoPaylas(){
 
         /*Fotoğraf yükleme için alınan sayfa erişim belirteci*/
-        String accessToken = "EAAT7Kw6YKxkBAEfY9F4iC7icFFeX3ZA5ysohwpZAo13uHod14Puk8UOQwG9d0AkE6ZCo9gkO3U93ejK8WeKIsZBvKX7gX8qpXS7ScH7ZCZA3mke9sxWFFiQA7QewgdUuNsgNaV3dff6BZByp16J6Bwq0iGNePofQuiaEKblNmFTd7KcHJYkEa5REn2S3ombUXMZD";
+        String accessToken = "EAAT7Kw6YKxkBAFiezT4RfKxBREgTRMj3QTBhHVFmjKZCEPpEFW9QrLgH8hQU9a05Vx8npU4O6Cxzog5Vh78ZCcBYQaZBWsXSolo1EYXvGY2dTZBPXVGMWZBZBWSAsOefZCH0Un2lqATR2jYZAYuZBn1Oz8ZCJw2tW4ESoLbhXgfTFwirwyqXZBB4LqrWmT246KXMY8ZD";
 
         /*İstemci oluşturma*/
         FacebookClient facebookClient = new DefaultFacebookClient(accessToken, Version.LATEST);
