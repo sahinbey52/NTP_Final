@@ -17,26 +17,12 @@ import java.io.FileInputStream;
 
 
 public class Fotograf {
-    OpenCVFrameGrabber grabber;
-    BufferedImage foto;
-    File resim_dosyasi;
+    static BufferedImage foto;
+    static File resim_dosyasi;
 
-    public Fotograf(){
-
-        grabber = new OpenCVFrameGrabber(0);
-
-        Dimension fotoBoyut = new Dimension(640, 480);
-        grabber.setImageWidth(fotoBoyut.width);
-        grabber.setImageHeight(fotoBoyut.height);
-
-        try {grabber.start();}
-        catch (Exception e) {e.printStackTrace();}
-
-    }
 
     protected static File dosyaSec(){
         try {
-            System.out.println("dosyasec çalıştı!");
             String mevcutdizin=new java.io.File(".").getCanonicalPath();
             JFileChooser ds=new JFileChooser(mevcutdizin);
             ds.setFileFilter(new FileFilter() {
@@ -56,7 +42,6 @@ public class Fotograf {
             });
             ds.showSaveDialog(null);
 
-            System.out.println("dosyasec return");
             return ds.getSelectedFile();
         }
         catch (Exception e) {e.printStackTrace();}
@@ -64,36 +49,25 @@ public class Fotograf {
     }
 
 
-    public void canli(JLabel imgLabel){
-        try {
-            Java2DFrameConverter converter = new Java2DFrameConverter();
-            foto = converter.convert(grabber.grab());
-
-            imgLabel.setIcon(new ImageIcon(foto));
-
-            Thread.sleep(33);
-        } catch (Exception e) {e.printStackTrace();}
-    }
-
     public void fotografCek(){
 
 
     }
 
-    public void fotografKaydet(){
+    static public void fotografKaydet(){
         File dosya=new File(dosyaSec().toString()+".jpg");
         resim_dosyasi=dosya;
         try {
             ImageIO.write(foto, "jpg", dosya);
-            JOptionPane.showMessageDialog(null, "Kaydedildi", "kayit", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Kaydedildi", "Kayıt", JOptionPane.INFORMATION_MESSAGE);
         }catch (Exception e){e.printStackTrace();}
     }
 
-    public void fotoPaylas(){
+    static public void fotoPaylas(){
 
         //30 temmuza kadar geçerli
         String accessToken = "EAAT7Kw6YKxkBAEfY9F4iC7icFFeX3ZA5ysohwpZAo13uHod14Puk8UOQwG9d0AkE6ZCo9gkO3U93ejK8WeKIsZBvKX7gX8qpXS7ScH7ZCZA3mke9sxWFFiQA7QewgdUuNsgNaV3dff6BZByp16J6Bwq0iGNePofQuiaEKblNmFTd7KcHJYkEa5REn2S3ombUXMZD";
-        //
+
         FacebookClient facebookClient = new DefaultFacebookClient(accessToken, Version.LATEST);
 
         // Paylaşmak istediğiniz fotoğrafın yolu
@@ -118,4 +92,13 @@ public class Fotograf {
         }catch (Exception e){e.printStackTrace();}
 
     }
+
+    protected static BufferedImage fotoKopyala(BufferedImage orj) {
+        BufferedImage kopyalananResim = new BufferedImage(orj.getWidth(), orj.getHeight(), orj.getType());
+        Graphics2D g = kopyalananResim.createGraphics();
+        g.drawImage(orj, 0, 0, null);
+        g.dispose();
+        return kopyalananResim;
+    }
+
 }
