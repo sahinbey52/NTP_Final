@@ -49,11 +49,6 @@ public class Fotograf {
     }
 
 
-    public void fotografCek(){
-
-
-    }
-
     static public void fotografKaydet(){
         File dosya=new File(dosyaSec().toString()+".jpg");
         resim_dosyasi=dosya;

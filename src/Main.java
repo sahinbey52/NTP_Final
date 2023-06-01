@@ -117,7 +117,7 @@ public class Main extends Fotograf {
             bottomPanel.add(fotoCekButton);
             JButton fotoKaydetButton = new JButton("Fotoğraf Kaydet");
             bottomPanel.add(fotoKaydetButton);
-            JButton paylasButton = new JButton("Fotografi Twitter'a Gonder");
+            JButton paylasButton = new JButton("Fotografi Facebook'ta Paylaş");
             bottomPanel.add(paylasButton);
 
             fotoCekButton.setBackground(Renk3);
@@ -125,6 +125,31 @@ public class Main extends Fotograf {
             fotoKaydetButton.setBackground(Renk3);
 
             frame.add(bottomPanel, BorderLayout.SOUTH);
+
+            // Soldaki butonlar bölümü
+            JPanel buttonsPanel = new JPanel(new GridLayout(3, 1));
+            buttonsPanel.setBackground(Renk1);
+
+            buttonsPanel.add(grilestirButton);
+            buttonsPanel.add(aydinlatButton);
+            buttonsPanel.add(parlatButton);
+
+            frame.getContentPane().add(panel);
+            frame.add(buttonsPanel,BorderLayout.WEST);
+
+            JPanel rightPanel = new JPanel(new GridBagLayout());
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.anchor = GridBagConstraints.NORTHEAST;
+            JLabel imageLabel = new JLabel();
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            gbc.gridwidth = 2; // 2 hücre genişliği
+            gbc.gridheight = 1; // 1 hücre yüksekliği
+            gbc.insets = new Insets(0, 0, 0, 0); // Üst boşluğu kaldırma
+            rightPanel.add(imageLabel, gbc);
+
+            frame.add(rightPanel, BorderLayout.EAST);
+            frame.revalidate();
 
             fotoCekButton.addMouseListener(new MouseAdapter() {
                 @Override
@@ -137,19 +162,9 @@ public class Main extends Fotograf {
                         capturedImage =fotoKopyala(image);
                         lock.unlock();
 
-                        JPanel rightPanel = new JPanel(new GridBagLayout());
-                        GridBagConstraints gbc = new GridBagConstraints();
-                        gbc.anchor = GridBagConstraints.NORTHEAST;
-                        JLabel imageLabel = new JLabel(new ImageIcon(capturedImage));
-                        gbc.gridx = 0;
-                        gbc.gridy = 0;
-                        gbc.gridwidth = 2; // 2 hücre genişliği
-                        gbc.gridheight = 1; // 1 hücre yüksekliği
-                        gbc.insets = new Insets(0, 0, 0, 0); // Üst boşluğu kaldırma
-                        rightPanel.add(imageLabel, gbc);
+                        imageLabel.setIcon(new ImageIcon(capturedImage));
 
-                        frame.add(rightPanel, BorderLayout.EAST);
-                        frame.revalidate();
+
                         foto = fotoKopyala(capturedImage);
 
                     } catch (Exception ex) {
@@ -178,16 +193,7 @@ public class Main extends Fotograf {
                 }
             });
 
-            // Soldaki butonlar bölümü
-            JPanel buttonsPanel = new JPanel(new GridLayout(3, 1));
-            buttonsPanel.setBackground(Renk1);
 
-            buttonsPanel.add(grilestirButton);
-            buttonsPanel.add(aydinlatButton);
-            buttonsPanel.add(parlatButton);
-
-            frame.getContentPane().add(panel);
-            frame.add(buttonsPanel,BorderLayout.WEST);
 
             while (frame.isVisible()) {
 
@@ -200,7 +206,7 @@ public class Main extends Fotograf {
                     ColorConvertOp op = new ColorConvertOp(null);
                     op.filter(image, grayImage);
                     image = grayImage;
-                    //capturedImage = grayImage;
+                    //capturedImage = grayImage; SİLİNECEK!!!
 
 
                 } else if (aydinlat) {
@@ -208,14 +214,14 @@ public class Main extends Fotograf {
                     float offset = 0;           // Aydınlatma ofseti
                     RescaleOp rescaleOp = new RescaleOp(brightness, offset, null);
                     rescaleOp.filter(image, image);
-                    //capturedImage = rescaleOp.filter(image, image);
+                    //capturedImage = rescaleOp.filter(image, image); SİLİNECEK'''
                 } else if (parlat) {
 
                     float brightness = 1.2f;    // Parlaklık faktörü
                     float offset = 20;          // Parlaklık ofseti
                     RescaleOp rescaleOp = new RescaleOp(brightness, offset, null);
                     rescaleOp.filter(image, image);
-                    //capturedImage = rescaleOp.filter(image, image);
+                    //capturedImage = rescaleOp.filter(image, image); SİLİNECEK!!!
 
                 }
                 captureBlock=false;
